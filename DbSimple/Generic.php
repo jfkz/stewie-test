@@ -110,7 +110,7 @@ class DbSimple_Generic
                 }
             }
         }
-        $object =& new $class($parsed);
+        $object = new $class($parsed);
         if (isset($parsed['ident_prefix'])) {
             $object->setIdentPrefix($parsed['ident_prefix']);
         }
@@ -130,7 +130,7 @@ class DbSimple_Generic
                     fclose($fp);
                     unlink($testFile);                
                     require_once 'Cache' . '/Lite.php'; // "." -> no phpEclipse notice
-                    $t =& new Cache_Lite(array('cacheDir' => $dir.'/', 'lifeTime' => null, 'automaticSerialization' => true));
+                    $t = new Cache_Lite(array('cacheDir' => $dir.'/', 'lifeTime' => null, 'automaticSerialization' => true));
                     $object->_cacher =& $t;
                     break;
                 }
@@ -593,6 +593,7 @@ class DbSimple_Generic_Database extends DbSimple_Generic_LastError
             $result = $this->_performQuery($query);
             $fetchTime = $firstFetchTime = 0;
 
+
             if (is_resource($result)) {
                 $rows = array();
                 // Fetch result row by row.
@@ -915,6 +916,7 @@ class DbSimple_Generic_Database extends DbSimple_Generic_LastError
      */
     function _transformResult($rows)
     {
+
         // Process ARRAY_KEY feature.
         if (is_array($rows) && $rows) {
             // Find ARRAY_KEY* AND PARENT_KEY fields in field list.
