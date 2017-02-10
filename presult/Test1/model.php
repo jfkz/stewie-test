@@ -83,7 +83,7 @@ abstract class model implements i_model
 		}
 
 		if (!$this->is_field_exist($field)) {
-			throw new Exception('Unknown field ' . $field);
+			throw new Exception('Unknown field : ' . $field);
 		}
 
 		$this->_fields[$field] = $value;
@@ -100,7 +100,7 @@ abstract class model implements i_model
 	public function get_field($field)
 	{
 		if (!$this->is_field_exist($field)) {
-			throw new Exception('Unknown field ' . $field);
+			throw new Exception('Unknown field : ' . $field);
 		}
 
 		return $this->_fields[$field];
@@ -117,14 +117,15 @@ abstract class model implements i_model
 		$field_names = array_keys($this->_fields_info);
 		unset($field_names['id']);
 
+		$args = [];
 		if ($this->id()) {
-			$args = ["UPDATE {$this->table_name()} SET `" . implode("` = ?,`", $field_names) . "` = ? WHERE id = ?"];
+			$args[] = "UPDATE {$this->table_name()} SET `" . implode("` = ?,`", $field_names) . "` = ? WHERE id = ?";
 			foreach ($field_names as $field_name) {
 				$args[] = $this->_fields[$field_name];
 			}
 			$args[] = $this->id();
 		} else {
-			$args = ["INSERT INTO {$this->table_name()} (`" . implode("`,`", $field_names) . "`) VALUES (" . implode(',', array_fill(0, count($field_names), '?')) . ")"];
+			$args[] = "INSERT INTO {$this->table_name()} (`" . implode("`,`", $field_names) . "`) VALUES (" . implode(',', array_fill(0, count($field_names), '?')) . ")";
 			foreach ($field_names as $field_name) {
 				$args[] = $this->_fields[$field_name];
 			}
@@ -143,12 +144,12 @@ abstract class model implements i_model
 
 	/**
 	 * Delete object from database
-	 * @return array|null|void
+	 * @return bool
 	 */
 	public function delete()
 	{
 		if ($this->id()) {
-			return $this->db()->query("DELETE FROM {$this->table_name()} WHERE id = ?", $this->id());
+			return ($this->db()->query("DELETE FROM {$this->table_name()} WHERE id = ?", $this->id())) ? true : false;
 		}
 
 		return false;

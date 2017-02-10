@@ -8,6 +8,8 @@ require_once __DIR__ . "/model.php";
 require_once __DIR__ . "/blog_post.php";
 
 
+// тестировалось на PHP 7.0.9
+
 /***** Test 1 start *****/
 
 $post_1 = new blog_post(1);
