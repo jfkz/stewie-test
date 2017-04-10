@@ -1,0 +1,3 @@
+SELECT p.id, p.summa FROM `payment` p, `order` o WHERE p.order_id=o.id
+SELECT SUM(pi.price) FROM `product_item` pi, `order_tem` oi, `order` o WHERE pi.order_item_id=oi.id AND oi.order_id=o.id AND MONTH(o.finish_date)=12
+SELECT COUNT(id), product_id FROM `product_item` WHERE status='free'
